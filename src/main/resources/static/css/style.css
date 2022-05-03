@@ -1,0 +1,62 @@
+@charset "UTF-8";
+
+body {
+	background: url(../images/background3.jpg) no-repeat;
+	background-size: cover;
+	color: lightblue;
+	background-attachment: fixed;
+}
+
+.header {
+	margin-left: 36%;
+	font-size: 48px;
+	color: brown;
+	font-weight: bold;
+}
+
+.copyright {
+	bottom: 0;
+	height: 50px;
+	font-size: 12px;
+	color: white;
+	width: 100%;
+	text-align: center;
+	align-content: center;
+}
+
+.addTable table {
+	border-collapse: collapse;
+	width: 600px;
+}
+
+.addTable td {
+	line-height: 50px;
+}
+
+#div1 {
+	text-align: right;
+	margin-right: 20%;
+}
+
+.addTable .btn {
+	width: 100px;
+	align: center;
+}
+
+.listForm form {
+	display: inline;
+}
+
+#option {
+	text-align: center;
+}
+
+a:link {
+	color: lightblue;
+	text-decoration: underline;
+}
+
+a:hover {
+	color: black;
+	text-decoration: none;
+}

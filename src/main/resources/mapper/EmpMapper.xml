@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coderbar.demo.mapper.EmpMapper">
+
+	<resultMap type="com.coderbar.demo.bean.EmpData"
+		id="empResultMap">
+		<id property="empCd" column="empCd" />
+		<result property="name" column="name" />
+		<result property="birthday" column="birthday" />
+		<result property="nationality.nationalityName"
+			column="nationalityName" />
+		<result property="nationality.nationalityCd"
+			column="nationalityCd" />
+		<result property="gender.genderCd" column="genderCd" />
+		<result property="gender.genderName" column="genderName" />
+	</resultMap>
+
+	<select id="listEmp" resultMap="empResultMap">
+		SELECT
+		e.empCd,e.name,e.birthday,n.nationalityCd,n.nationalityName,g.genderCd,g.genderName
+		FROM empData as e
+		LEFT JOIN nationality as n
+		ON(e.nationalityCd=n.nationalityCd)
+		LEFT JOIN gender as g
+		ON(e.genderCd=g.genderCd)
+	</select>
+	<select id="searchEmp" resultMap="empResultMap">
+		SELECT
+		e.empCd,e.name,e.birthday,n.nationalityCd,n.nationalityName,g.genderCd,g.genderName
+		FROM empData as e
+		LEFT JOIN nationality as n
+		ON(e.nationalityCd=n.nationalityCd)
+		LEFT JOIN gender as g
+		ON(e.genderCd=g.genderCd)
+		WHERE
+		conCat(empCd,name,birthday,nationalityName,genderName)
+		LIKE #{keyWord};
+	</select>
+	<select id="getEmpData" resultMap="empResultMap">
+		SELECT
+		e.empCd,e.name,e.birthday,n.nationalityCd,n.nationalityName,g.genderCd,g.genderName
+		FROM empData as e
+		LEFT JOIN nationality as n
+		ON(e.nationalityCd=n.nationalityCd)
+		LEFT JOIN gender as g
+		ON(e.genderCd=g.genderCd)
+		WHERE empCd=#{empCd};
+	</select>
+	<insert id="insertEmp"
+		parameterType="com.coderbar.demo.form.EmpForm">
+		INSERT INTO
+		empData(empCd,name,birthday,nationalityCd,genderCd)
+		VALUES
+		(#{empCd},#{name},#{birthday},#{nationalityCd},#{genderCd})
+	</insert>
+	<update id="changeEmp"
+		parameterType="com.coderbar.demo.form.EmpForm">
+		UPDATE empData set
+		name=#{name},birthday=#{birthday},genderCd=#{genderCd},nationalityCd=#{nationalityCd}
+		WHERE empCd=#{empCd};
+	</update>
+</mapper>

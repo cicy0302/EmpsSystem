@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{common/empLayout}">
+<head>
+<meta charset="UTF-8">
+<script src="https://cdn.staticfile.org/jquery/2.1.1/jquery.min.js"></script>
+<script
+	src="https://cdn.staticfile.org/twitter-bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/style.css">
+<title>[[#{title}]]</title>
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<h1 align="center">[[#{emplist}]]</h1>
+		<div align="center" class="listForm">
+		<br/>
+			<div align="right">
+				<div id="01"
+					style="width: 20px; height: 20px; float: left; margin-left: 68%">
+					<form action="/toaddEmp">
+						<input type="submit" class="btn btn-success" th:value="#{addbtn}" />
+					</form>
+				</div>
+				<div id="02"
+					style="width: 20px; height: 20px; float: left; margin-left: 100px;">
+					<form action="/login">
+						<button type="submit" class="btn btn-warning">[[#{logout}]]</button>
+					</form>
+				</div>
+			</div>
+			<span></span>
+			<br />	<br />
+			<div align="right"
+				style="height: 20px; float: left; margin-left: 43%">
+				<form action="/searchEmp">
+					<div class="form-group row col-md-8" style="margin: 2% 56%">
+						<div class="col-sm-10 col-form-label">
+							<input type="text" name="keyWord" class="form-control"
+								onkeydown="eraseInfo();" />
+						</div>
+						<div class="col-sm-1 col-form-label">
+							<input type="submit" class="btn btn-info" th:value="#{searchbtn}" />
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+
+		<div align="center" style="margin-top: 50px">
+			<table class=" table-hover ">
+				<tr style="font-size: 18px;">
+					<th width="100" th:text="#{empCd}"></th>
+					<th width="100" th:text="#{name}"></th>
+					<th width="120" th:text="#{birthday}"></th>
+					<th width="100" th:text="#{nationality}"></th>
+					<th width="80" th:text="#{gender}"></th>
+					<th colspan="2" width="100" id="option" th:text="#{option}"></th>
+				</tr>
+				<tr th:each="emp:${empList}">
+					<td><a th:text="${emp.empCd}"
+						th:href="@{/showDetails?(empCd=${emp.empCd})}"></a></td>
+					<td th:text="${emp.name}"></td>
+					<td th:text="${emp.birthday}"></td>
+					<td th:text="${emp.nationality.nationalityName}"></td>
+					<td th:text="${emp.gender.genderName}"></td>
+					<td>
+						<div style="float: left; margin: 2px">
+							<form action="/toChange" method="post">
+								<input type="submit" th:value="#{changebtn}"
+									class="btn btn-primary" /> <input type="hidden" name="empCd"
+									th:value="${emp.empCd}" />
+							</form>
+						</div>
+						<div style="float: right; margin: 2px">
+							<form action="delete" method="post"
+								onClick="return delete_confirm()">
+								<input type="submit" th:value="#{deletebtn}"
+									class="btn btn-primary" /> <input type="hidden" name="empCd"
+									th:value="${emp.empCd}" />
+							</form>
+						</div>
+					</td>
+				</tr>
+			</table>
+
+			<input type="button" th:value="#{download}"
+				onclick="window.location.href='/u_denpyouExcel'">
+		</div>
+
+		<script type="text/javascript" th:inline="javascript">
+			//削除確認メセージ
+			function delete_confirm() {
+				//
+				if (window.confirm(/*[[#{deleteMessage}]]*/)) {
+					//alert("確認");
+					return true;
+				} else {
+					//alert("キャンセル");
+					return false;
+				}
+			}
+			
+			/*
+			$(".remove").click(function () {
+				if (window.confirm('該当社員情報を削除します。よろしいですか？')) {
+					$(this).parent().parent().remove(); 
+				}
+			})
+			在页面的script标签中，加入 th:inline="javascript"后，才可以做到在js代码中取出后端放在model中的值并使用。
+			[[${xxx}]]其中xxx为后端放到model中的数据
+			 */
+
+		</script>
+	</div>
+</body>
+<br />
+<br />
+<br />
+<div class="copyright">[[#{footer}]]</div>
+</html>
